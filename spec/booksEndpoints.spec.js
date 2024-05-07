@@ -1,62 +1,55 @@
-const { verifyContentLength, BASE_URL } = require('../config');
-const axios = require("axios").default;
+const booksTasks = require("./api_handlers/booksTasks");
 
-describe('Books endpoints', () => {
-    it('should retrieve all books data', async () => {
-        const response = await axios.get(`${BASE_URL}api/v1/Books`);
-        expect(response.status).toBe(200);
-        console.log('Books: ', response.data);
-    })
+describe("Books endpoints", () => {
+  it("should retrieve all books data", async () => {
+    const response = await booksTasks.getBooks();
+    console.log("Books: ", response.data);
+    await expect(response.data.length).toBeGreaterThan(0);
+    await expect(response.status).toBe(200);
+  });
 
-    it('should create a new book', async () => {
-        const newBook = {
-            "id": 0,
-            "title": "nova knjiga",
-            "description": "new new new new",
-            "pageCount": 35,
-            "excerpt": "string",
-            "publishDate": "2024-05-06T09:55:15.289Z"            
-        }
+  it("should create a new book", async () => {
+    const newBook = {
+      id: 0,
+      title: "nova knjiga",
+      description: "new new new new",
+      pageCount: 35,
+      excerpt: "string",
+      publishDate: "2024-05-06T09:55:15.289Z",
+    };
+    const response = await booksTasks.createBook(newBook);
+    console.log("New book: ", response.data);
+    await expect(newBook).toBeDefined();
+    await expect(response.status).toBe(200);
+  });
 
-        const response = await axios.post(`${BASE_URL}api/v1/Books`, newBook, {
-            headers: {
-                'Content-Type': 'application/json; v=1.0',
-                'accept': '*/*'
-            }
-        })
-        expect(response.status).toBe(200);
-        console.log('New book:', response.data);
-    })
+  it("should retrieve a single book data", async () => {
+    const bookId = 1;
+    const response = await booksTasks.getBookById(bookId);
+    console.log("Book: ", response.data);
+    await expect(response.data.id).toBe(bookId);
+    await expect(response.status).toBe(200);
+  });
 
-    it('should retrieve a single book data', async () => {
-        const response = await axios.get(`${BASE_URL}/api/v1/Books/1`);
-        expect(response.status).toBe(200);
-        console.log('Book with id 1:', response.data);
-    })
+  it("should update a book", async () => {
+    const bookId = 1;
+    const updatedBook = {
+      id: bookId,
+      title: "updated book",
+      description: "update",
+      pageCount: 100,
+      excerpt: "string",
+      publishDate: "2024-05-06T10:02:02.329Z",
+    };
+    const response = await booksTasks.updateBook(bookId, updatedBook);
+    console.log("Updated book: ", response.data);
+    await expect(updatedBook.id).toBe(bookId);
+    await expect(response.status).toBe(200);
+  });
 
-    it('should update a book', async () => {
-        const updatedBook = {
-            "id": 1,
-            "title": "updated book",
-            "description": "update",
-            "pageCount": 100,
-            "excerpt": "string",
-            "publishDate": "2024-05-06T10:02:02.329Z"            
-        }
-        const currentData = await axios.get(`${BASE_URL}/api/v1/Books/1`);
-        const updatedData = await axios.put(`${BASE_URL}/api/v1/Books/1`, updatedBook, {
-            headers: {
-                'Content-Type': 'application/json; v=1.0',
-                'accept': '*/*'
-            }
-        })
-        expect(updatedData.status).toBe(200);
-        console.log('Current book:', currentData.data, '/n', 'Updated book:', updatedData.data);
-    })
-
-    it('should delete a book', async () => {
-        const response = await axios.delete(`${BASE_URL}/api/v1/Books/1`);
-        expect(response.status).toBe(200);
-        verifyContentLength(response);    
-    })
+  it("should delete a book", async () => {
+    const deletedBook = await booksTasks.deleteBook(2);
+    await expect(deletedBook.status).toBe(200);
+    await expect(deletedBook.headers["content-length"]).toBe("0");
+  });
 });

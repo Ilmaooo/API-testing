@@ -1,62 +1,55 @@
-const { verifyContentLength, BASE_URL } = require('../config');
-const axios = require("axios").default;
+const coverPhotosTasks = require("./api_handlers/coverPhotosTasks");
 
-describe('Cover photos endpoints', () => {
-    it('should retrieve all cover photos data', async () => {
-        const response = await axios.get(`${BASE_URL}api/v1/CoverPhotos`);
-        expect(response.status).toBe(200);
-        console.log('Cover photos: ', response.data);
-    })
+describe("Cover photos endpoints", () => {
+  it("should retrieve all cover photos data", async () => {
+    const response = await coverPhotosTasks.getCoverPhotos();
+    console.log("Cover photos: ", response.data);
+    await expect(response.data.length).toBeGreaterThan(0);
+    await expect(response.status).toBe(200);
+  });
 
-    it('should add a new cover photo', async () => {
-        const newCover = {
-            "id": 0,
-            "idBook": 0,
-            "url": "newCover.jpg"            
-        }
+  it("should add a new cover photo", async () => {
+    const newCover = {
+      id: 0,
+      idBook: 0,
+      url: "newCover.jpg",
+    };
+    const response = await coverPhotosTasks.createCoverPhoto(newCover);
+    await expect(newCover).toBeDefined();
+    await expect(response.status).toBe(200);
+  });
 
-        const response = await axios.post(`${BASE_URL}api/v1/CoverPhotos`, newCover, {
-            headers: {
-                'Content-Type': 'application/json; v=1.0',
-                'accept': '*/*'
-            }
-        })
-        expect(response.status).toBe(200);
-        console.log('New cover photo:', response.data);
-    })
+  it("should retrieve cover photos for a specific book by id", async () => {
+    const response = await coverPhotosTasks.getCoverPhotoByBookId(1);
+    console.log(`Cover photos for book with id 1: `, response.data);
+    await expect(response.status).toBe(200);
+  });
 
-    it('should retrieve cover photos for a specific book by id', async () => {
-        const response = await axios.get(`${BASE_URL}/api/v1/CoverPhotos/books/covers/1`)
-        expect(response.status).toBe(200);
-        console.log('Cover photos for book with id 1:', response.data);
-    })
+  it("should retrieve a specific cover photo by ID", async () => {
+    const coverId = 1;
+    const response = await coverPhotosTasks.getCoverPhotoById(coverId);
+    console.log("Cover photo with id 1: ", response.data);
+    await expect(response.status).toBe(200);
+  });
 
-    it('should retrieve a specific cover photo by ID', async () => {
-        const response = await axios.get(`${BASE_URL}/api/v1/CoverPhotos/1`);
-        expect(response.status).toBe(200);
-        console.log('Cover photo with id 1:', response.data);
-    })
+  it("should update a cover photo", async () => {
+    const coverId = 1;
+    const updatedCover = {
+      id: coverId,
+      idBook: 500,
+      url: "updatedCover.jpg",
+    };
+    const response = await coverPhotosTasks.updateCoverPhoto(
+      coverId,
+      updatedCover,
+    );
+    await expect(updatedCover.id).toBe(coverId);
+    await expect(response.status).toBe(200);
+  });
 
-    it('should update a cover photo', async () => {
-        const updatedCover = {
-            "id": 101,
-            "idBook": 1,
-            "url": "updatedCover.jpg"            
-        }
-        const currentCover = await axios.get(`${BASE_URL}/api/v1/CoverPhotos/1`);
-        const response = await axios.put(`${BASE_URL}/api/v1/CoverPhotos/1`, updatedCover, {
-            headers: {
-                'Content-Type': 'application/json; v=1.0',
-                'accept': '*/*'
-            }
-        })
-        expect(response.status).toBe(200);
-        console.log('Current cover photo: ', currentCover.data, 'Updated cover photo:', response.data);
-    })
-
-    it('should delete a cover photo', async () => {
-        const response = await axios.delete(`${BASE_URL}api/v1/CoverPhotos/1`);
-        expect(response.status).toBe(200);
-        verifyContentLength(response);         
-    })
-})
+  it("should delete a cover photo", async () => {
+    const deletedCover = await coverPhotosTasks.deleteCoverPhoto(2);
+    await expect(deletedCover.status).toBe(200);
+    await expect(deletedCover.headers["content-length"]).toBe("0");
+  });
+});
