@@ -1,5 +1,5 @@
 const axios = require("axios").default;
-const urls = require("../../apiConfig");
+const endpoints = require("../../apiConfig");
 
 const getBooks = async () => {
   try {
