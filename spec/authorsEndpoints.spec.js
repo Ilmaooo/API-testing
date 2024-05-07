@@ -1,9 +1,8 @@
-const apiWrapper = require ("../apiWrapper");
-const axios = require("axios").default;
+const authorsTasks = require("./api_handlers/authorsTasks");
 
 describe('Authors endpoints', () => {
     it('should retrieve all authors data', async () => {
-        const response = await apiWrapper.getAuthors();
+        const response = await authorsTasks.getAuthors();
         console.log("Authors: ", response.data);
         await expect(response.data.length).toBeGreaterThan(0);
         await expect(response.status).toBe(200);
@@ -15,21 +14,21 @@ describe('Authors endpoints', () => {
             "firstName": "John",
             "lastName": "Doe"
         }
-        const response = await apiWrapper.createAuthor(newAuthor);
+        const response = await authorsTasks.createAuthor(newAuthor);
         console.log("New author: ", response.data);
         await expect(newAuthor).toBeDefined();
         await expect(response.status).toBe(200);
     })
 
     it('should retrieve a single author data', async () => {
-        const response = await apiWrapper.getAuthorById(1);
+        const response = await authorsTasks.getAuthorById(1);
         console.log("Author: ", response.data);
         await expect(response.data.id).toBeDefined();
         await expect(response.status).toBe(200);    
     })
 
     it('should return author information for a specific book ids', async () => {
-        const response = await apiWrapper.getAuthorsByBookId(1);
+        const response = await authorsTasks.getAuthorsByBookId(1);
         console.log("Authors: ", response.data);
         await expect(response.status).toBe(200);
     })
@@ -41,7 +40,7 @@ describe('Authors endpoints', () => {
             "lastName": "author"
         }
         const authorId = 1;
-        const response = await apiWrapper.updateAuthor(authorId, updatedAuthor);
+        const response = await authorsTasks.updateAuthor(authorId, updatedAuthor);
         console.log("Updated author: ", response.data);
         await expect(updatedAuthor).toBeDefined();
         await expect(response.status).toBe(200);
@@ -49,7 +48,7 @@ describe('Authors endpoints', () => {
     
 
     it('should delete an author', async () => {
-        const deletedAuthor = await apiWrapper.deleteAuthor(2);
+        const deletedAuthor = await authorsTasks.deleteAuthor(2);
         await expect(deletedAuthor.status).toBe(200);
         await expect(deletedAuthor.headers['content-length']).toBe("0");
     })
