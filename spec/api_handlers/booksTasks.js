@@ -1,9 +1,9 @@
 const axios = require("axios").default;
-const urls = require("../../apiConfig");
+const endpoints = require("../../apiConfig");
 
 const getBooks = async () => {
     try{
-        const response = await axios.get(urls.books.getAll.url);
+        const response = await axios.get(endpoints.books.getAll.url);
         return response;
     } catch (error) {
         console.error(error);
@@ -12,7 +12,7 @@ const getBooks = async () => {
 
 const getBookById = async (id) => {
     try {
-        const response  = await axios.get(urls.books.getById.url(id));
+        const response  = await axios.get(endpoints.books.getById.url(id));
         return response;
     } catch (error) {
         console.error(error);
@@ -21,7 +21,7 @@ const getBookById = async (id) => {
 
 const createBook = async (book) => {
     try {
-        const response = await axios.post(urls.books.create.url, book);
+        const response = await axios.post(endpoints.books.create.url, book);
         return response;
     } catch (error) {
         console.error(error);
@@ -30,7 +30,7 @@ const createBook = async (book) => {
 
 const updateBook = async (id, updatedBook) => {
     try {
-        const response = await axios.put(urls.books.update.url(id), updatedBook);
+        const response = await axios.put(endpoints.books.update.url(id), updatedBook);
         return response;
     } catch (error) {
         console.error(error);
@@ -39,7 +39,7 @@ const updateBook = async (id, updatedBook) => {
 
 const deleteBook = async (id) => {
     try {
-        const response  = await axios.delete(urls.books.delete.url(id));
+        const response  = await axios.delete(endpoints.books.delete.url(id));
         console.log("Content-length:" ,response.headers['content-length'])
         return response;
     } catch (error) {
