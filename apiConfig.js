@@ -1,97 +1,44 @@
 const BASE_API_URL = "https://fakerestapi.azurewebsites.net/api/v1";
 
-const endpoints = {
+const urls = {
   activities: {
-    getAll: {
-      url: `${BASE_API_URL}/Activities`,
-    },
-    create: {
-      url: `${BASE_API_URL}/Activities`,
-    },
-    getById: {
-      url: (id) => `${BASE_API_URL}/Activities/${id}`,
-    },
-    update: {
-      url: (id) => `${BASE_API_URL}/Activities/${id}`,
-    },
-    delete: {
-      url: (id) => `${BASE_API_URL}/Activities/${id}`,
-    },
+    getAll: `${BASE_API_URL}/Activities`,
+    create: `${BASE_API_URL}/Activities`,
+    getById: (id) => `${BASE_API_URL}/Activities/${id}`,
+    update: (id) => `${BASE_API_URL}/Activities/${id}`,
+    delete:  (id) => `${BASE_API_URL}/Activities/${id}`,
   },
   authors: {
-    getAll: {
-      url: `${BASE_API_URL}/Authors`,
-    },
-    create: {
-      url: `${BASE_API_URL}/Authors`,
-    },
-    getByBookId: {
-      url: (idBook) => `${BASE_API_URL}/Authors/authors/books/${idBook}`,
-    },
-    getById: {
-      url: (id) => `${BASE_API_URL}/Authors/${id}`,
-    },
-    update: {
-      url: (id) => `${BASE_API_URL}/Authors/${id}`,
-    },
-    delete: {
-      url: (id) => `${BASE_API_URL}/Authors/${id}`,
-    },
+    getAll:  `${BASE_API_URL}/Authors`,
+    create:  `${BASE_API_URL}/Authors`,
+    getByBookId: (idBook) => `${BASE_API_URL}/Authors/authors/books/${idBook}`,
+    getById: (id) => `${BASE_API_URL}/Authors/${id}`,
+    update:  (id) => `${BASE_API_URL}/Authors/${id}`,
+    delete: (id) => `${BASE_API_URL}/Authors/${id}`,
   },
   books: {
-    getAll: {
-      url: `${BASE_API_URL}/Books`,
-    },
-    create: {
-      url: `${BASE_API_URL}/Books`,
-    },
-    getById: {
-      url: (id) => `${BASE_API_URL}/Books/${id}`,
-    },
-    update: {
-      url: (id) => `${BASE_API_URL}/Books/${id}`,
-    },
-    delete: {
-      url: (id) => `${BASE_API_URL}/Books/${id}`,
-    },
+    getAll: `${BASE_API_URL}/Books`,
+    create: `${BASE_API_URL}/Books`,
+    getById: (id) => `${BASE_API_URL}/Books/${id}`,
+    update:  (id) => `${BASE_API_URL}/Books/${id}`,
+    delete:  (id) => `${BASE_API_URL}/Books/${id}`,
   },
   coverPhotos: {
-    getAll: {
-      url: `${BASE_API_URL}/CoverPhotos`,
-    },
-    create: {
-      url: `${BASE_API_URL}/CoverPhotos`,
-    },
-    getByIdBook: {
-      url: (idBook) => `${BASE_API_URL}/CoverPhotos/books/covers/${idBook}`,
-    },
-    getById: {
-      url: (id) => `${BASE_API_URL}/CoverPhotos/${id}`,
-    },
-    update: {
-      url: (id) => `${BASE_API_URL}/CoverPhotos/${id}`,
-    },
-    delete: {
-      url: (id) => `${BASE_API_URL}/CoverPhotos/${id}`,
-    },
+    getAll: `${BASE_API_URL}/CoverPhotos`,
+    create: `${BASE_API_URL}/CoverPhotos`,
+    getByIdBook: (idBook) => `${BASE_API_URL}/CoverPhotos/books/covers/${idBook}`,
+    getById: (id) => `${BASE_API_URL}/CoverPhotos/${id}`,
+    update: (id) => `${BASE_API_URL}/CoverPhotos/${id}`,
+    delete: (id) => `${BASE_API_URL}/CoverPhotos/${id}`,
   },
   users: {
-    getAll: {
-      url: `${BASE_API_URL}/Users`,
-    },
-    create: {
-      url: `${BASE_API_URL}/Users`,
-    },
-    getById: {
-      url: (id) => `${BASE_API_URL}/Users/${id}`,
-    },
-    update: {
-      url: (id) => `${BASE_API_URL}/Users/${id}`,
-    },
-    delete: {
-      url: (id) => `${BASE_API_URL}/Users/${id}`,
-    },
+    getAll: `${BASE_API_URL}/Users`,
+    create: `${BASE_API_URL}/Users`,
+    getById: (id) => `${BASE_API_URL}/Users/${id}`,
+    update:  (id) => `${BASE_API_URL}/Users/${id}`,
+    delete:  (id) => `${BASE_API_URL}/Users/${id}`,
   },
 };
 
-module.exports = endpoints;
+
+module.exports = urls;

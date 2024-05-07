@@ -1,9 +1,9 @@
 const axios = require("axios").default;
-const endpoints = require("../../apiConfig");
+const urls = require("../../apiConfig");
 
 const getUsers = async () => {
   try {
-    const response = await axios.get(endpoints.users.getAll.url);
+    const response = await axios.get(urls.users.getAll);
     return response;
   } catch (error) {
     console.error(error);
@@ -12,7 +12,7 @@ const getUsers = async () => {
 
 const getUserById = async (id) => {
   try {
-    const response = await axios.get(endpoints.users.getById.url(id));
+    const response = await axios.get(urls.users.getById(id));
     return response;
   } catch (error) {
     console.error(error);
@@ -21,7 +21,7 @@ const getUserById = async (id) => {
 
 const createUser = async (user) => {
   try {
-    const response = await axios.post(endpoints.users.create.url, user);
+    const response = await axios.post(urls.users.create, user);
     return response;
   } catch (error) {
     console.error(error);
@@ -31,7 +31,7 @@ const createUser = async (user) => {
 const updateUser = async (id, updatedUser) => {
   try {
     const response = await axios.put(
-      endpoints.users.update.url(id),
+      urls.users.update(id),
       updatedUser,
     );
     return response;
@@ -42,7 +42,7 @@ const updateUser = async (id, updatedUser) => {
 
 const deleteUser = async (id) => {
   try {
-    const response = await axios.delete(endpoints.users.delete.url(id));
+    const response = await axios.delete(urls.users.delete(id));
     console.log("Content-length:", response.headers["content-length"]);
     return response;
   } catch (error) {

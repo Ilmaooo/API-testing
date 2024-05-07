@@ -1,9 +1,9 @@
 const axios = require("axios").default;
-const endpoints = require("../../apiConfig");
+const urls = require("../../apiConfig");
 
 const getCoverPhotos = async () => {
   try {
-    const response = await axios.get(endpoints.coverPhotos.getAll.url);
+    const response = await axios.get(urls.coverPhotos.getAll);
     return response;
   } catch (error) {
     console.error(error);
@@ -13,7 +13,7 @@ const getCoverPhotos = async () => {
 const getCoverPhotoByBookId = async (idBook) => {
   try {
     const response = await axios.get(
-      endpoints.coverPhotos.getByIdBook.url(idBook),
+      urls.coverPhotos.getByIdBook(idBook),
     );
     return response;
   } catch (error) {
@@ -23,7 +23,7 @@ const getCoverPhotoByBookId = async (idBook) => {
 
 const getCoverPhotoById = async (id) => {
   try {
-    const response = await axios.get(endpoints.coverPhotos.getById.url(id));
+    const response = await axios.get(urls.coverPhotos.getById(id));
     return response;
   } catch (error) {
     console.error(error);
@@ -33,7 +33,7 @@ const getCoverPhotoById = async (id) => {
 const createCoverPhoto = async (coverPhoto) => {
   try {
     const response = await axios.post(
-      endpoints.coverPhotos.create.url,
+      urls.coverPhotos.create,
       coverPhoto,
     );
     return response;
@@ -45,7 +45,7 @@ const createCoverPhoto = async (coverPhoto) => {
 const updateCoverPhoto = async (id, updatedCoverPhoto) => {
   try {
     const response = await axios.put(
-      endpoints.coverPhotos.update.url(id),
+      urls.coverPhotos.update(id),
       updatedCoverPhoto,
     );
     return response;
@@ -56,7 +56,7 @@ const updateCoverPhoto = async (id, updatedCoverPhoto) => {
 
 const deleteCoverPhoto = async (id) => {
   try {
-    const response = await axios.delete(endpoints.coverPhotos.delete.url(id));
+    const response = await axios.delete(urls.coverPhotos.delete(id));
     console.log("Content-length:", response.headers["content-length"]);
     return response;
   } catch (error) {
