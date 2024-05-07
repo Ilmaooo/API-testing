@@ -1,4 +1,4 @@
-const BASE_URL = 'https://fakerestapi.azurewebsites.net/';
+const BASE_URL = 'https://fakerestapi.azurewebsites.net/api/v1'
 
 const verifyContentLength = (response) => {
     const contentLengthHeader = response.headers['content-length'];

@@ -1,64 +1,56 @@
-const { verifyContentLength, BASE_URL } = require('../config');
+const apiWrapper = require ("../apiWrapper");
 const axios = require("axios").default;
 
 describe('Authors endpoints', () => {
     it('should retrieve all authors data', async () => {
-        const response = await axios.get(`${BASE_URL}api/v1/Authors`);
-        expect(response.status).toBe(200);
-        console.log('Authors: ', response.data);
+        const response = await apiWrapper.getAuthors();
+        console.log("Authors: ", response.data);
+        await expect(response.data.length).toBeGreaterThan(0);
+        await expect(response.status).toBe(200);
     })
 
     it('should create a new author', async () => {
         const newAuthor = {
-            "id": 0,
-            "idBook": 0,
-            "firstName": "new",
-            "lastName": "author"          
+            "idBook": 1,
+            "firstName": "John",
+            "lastName": "Doe"
         }
-        const response = await axios.post(`${BASE_URL}api/v1/Authors`, newAuthor, {
-                headers: {
-                    'Content-Type': 'application/json; v=1.0',
-                    'accept': 'text/plain; v=1.0'
-                  }
-        })
-        expect(response.status).toBe(200);
-        console.log('New author:', response.data);
+        const response = await apiWrapper.createAuthor(newAuthor);
+        console.log("New author: ", response.data);
+        await expect(newAuthor).toBeDefined();
+        await expect(response.status).toBe(200);
     })
 
     it('should retrieve a single author data', async () => {
-        const response = await axios.get(`${BASE_URL}api/v1/Authors/1`);
-        expect(response.status).toBe(200);
-        console.log('Author with id 1:', response.data);
+        const response = await apiWrapper.getAuthorById(1);
+        console.log("Author: ", response.data);
+        await expect(response.data.id).toBeDefined();
+        await expect(response.status).toBe(200);    
     })
 
     it('should return author information for a specific book ids', async () => {
-        const response = await axios.get(`${BASE_URL}api/v1/Authors/authors/books/1`);
-        expect(response.status).toBe(200);
-        console.log('Author for books with id 1:', response.data);
+        const response = await apiWrapper.getAuthorsByBookId(1);
+        console.log("Authors: ", response.data);
+        await expect(response.status).toBe(200);
     })
 
     it('should update an author', async () => {
         const updatedAuthor = {
-            "id": 1,
-            "idBook": 1,
+            "idBook": 2,
             "firstName": "updated",
-            "lastName": "author"          
+            "lastName": "author"
         }
-        const response = await axios.put(`${BASE_URL}api/v1/Authors/1`, updatedAuthor, {
-            headers: {
-                headers: {
-                    'Content-Type': 'application/json; v=1.0',
-                    'accept': 'text/plain; v=1.0'
-                  }
-            }
-        })
-        expect(response.status).toBe(200);
-        console.log('Updated author:', response.data);
+        const authorId = 1;
+        const response = await apiWrapper.updateAuthor(authorId, updatedAuthor);
+        console.log("Updated author: ", response.data);
+        await expect(updatedAuthor).toBeDefined();
+        await expect(response.status).toBe(200);
     })
+    
 
     it('should delete an author', async () => {
-        const response = await axios.delete(`${BASE_URL}api/v1/Authors/1`);
-        expect(response.status).toBe(200);
-        verifyContentLength(response);    
+        const deletedAuthor = await apiWrapper.deleteAuthor(2);
+        await expect(deletedAuthor.status).toBe(200);
+        await expect(deletedAuthor.headers['content-length']).toBe("0");
     })
-});
+})
