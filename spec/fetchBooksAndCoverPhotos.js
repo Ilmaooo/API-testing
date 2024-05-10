@@ -2,7 +2,7 @@ const authorsTasks = require("./api_handlers/authorsTasks");
 const booksTasks = require("./api_handlers/booksTasks");
 const coverPhotosTasks = require("./api_handlers/coverPhotosTasks");
 
-describe("Combine authors, books, and cover photos endpoints", () => {
+describe("Fetch books and cover photos for chosen author", () => {
     let author;
     let book;
     let coverPhoto;
